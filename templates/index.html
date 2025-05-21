@@ -2,19 +2,35 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>MQTT Viewer</title>
+    <title>MQTT UNRAM - Publish &amp; Subscribe</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #messages { border: 1px solid #ccc; padding: 10px; height: 200px; overflow-y: scroll; }
+        form { margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h2>MQTT Messages on "UNRAM"</h2>
-    <ul id="messages"></ul>
+    <h1>MQTT Dashboard - Topic: <code>UNRAM</code></h1>
+
+    <h2>Received Messages</h2>
+    <div id="messages"></div>
+
+    <h2>Publish a Message</h2>
+    <form action="/publish" method="POST">
+        <input type="text" name="message" placeholder="Enter message" required>
+        <button type="submit">Send</button>
+    </form>
 
     <script>
         const socket = io();
+        const messagesDiv = document.getElementById('messages');
+
         socket.on('mqtt_message', function(data) {
-            const li = document.createElement('li');
-            li.textContent = data.data;
-            document.getElementById('messages').appendChild(li);
+            const div = document.createElement('div');
+            div.textContent = data.data;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         });
     </script>
 </body>

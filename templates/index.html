@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MQTT Viewer</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <h2>MQTT Messages on "UNRAM"</h2>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = io();
+        socket.on('mqtt_message', function(data) {
+            const li = document.createElement('li');
+            li.textContent = data.data;
+            document.getElementById('messages').appendChild(li);
+        });
+    </script>
+</body>
+</html>
